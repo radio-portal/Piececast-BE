@@ -1,4 +1,4 @@
-package org.nhnacademy.piececast.common;
+package org.nhnacademy.piececast.common.exception;
 
 import org.springframework.http.HttpStatus;
 
