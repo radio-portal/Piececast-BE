@@ -4,14 +4,14 @@ spring:
       client:
         registration:
           spotify:
-            client-id: b1397b7367384595827c069ff2b73714
-            client-secret: e2eb3f981eaa4a80b1454862d6d71c48
+            client-id: 953be8b4278c4d4ab8b42cd71f05ef2a
+            client-secret: c1f269284e1e4d46b0bddc010bf52c0e
             scope:
               - user-read-email
               - user-read-private
             client-name: Spotify
             authorization-grant-type: authorization_code
-            redirect-uri: http://localhost:8080/login/oauth2/code/spotify
+            redirect-uri: "https://d2f3-182-226-42-123.ngrok-free.app/login/oauth2/code/spotify"
         provider:
           spotify:
             authorization-uri: https://accounts.spotify.com/authorize
