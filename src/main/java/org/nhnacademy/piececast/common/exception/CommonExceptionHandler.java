@@ -1,4 +1,4 @@
-package org.nhnacademy.piececast.common;
+package org.nhnacademy.piececast.common.exception;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

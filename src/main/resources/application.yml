@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: Piececast
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/piececast?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul
+    username: root
+    password: "0731"
+
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+
+  profiles:
+    include:
+      - oauth
+
+jwt:
+  secret: hJ94YxfJ7P4K2rX/o6+9wVbN8d1X8IOzjZ8EuU4g+nx4Ru4AYjmgM1vK1sYkxGm8
+  expiration: 86400000  # 1 day
