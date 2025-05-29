@@ -1,9 +1,9 @@
 package org.nhnacademy.piececast.common.config;
 
 import lombok.RequiredArgsConstructor;
-import org.nhnacademy.piececast.common.security.JwtAuthenticationFilter;
-import org.nhnacademy.piececast.common.security.OAuth2AuthenticationSuccessHandler;
-import org.nhnacademy.piececast.common.security.TokenProvider;
+import org.nhnacademy.piececast.auth.security.JwtAuthenticationFilter;
+import org.nhnacademy.piececast.auth.security.OAuth2AuthenticationSuccessHandler;
+import org.nhnacademy.piececast.auth.security.TokenProvider;
 import org.nhnacademy.piececast.member.repository.MemberRepository;
 import org.nhnacademy.piececast.member.service.CustomOAuth2UserService;
 import org.springframework.context.annotation.Bean;
