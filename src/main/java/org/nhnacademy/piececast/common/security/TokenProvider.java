@@ -1,4 +1,3 @@
-// TokenProvider.java
 package org.nhnacademy.piececast.common.security;
 
 import io.jsonwebtoken.*;

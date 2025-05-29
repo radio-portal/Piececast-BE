@@ -1,4 +1,3 @@
-// JwtAuthenticationFilter.java
 package org.nhnacademy.piececast.common.security;
 
 import jakarta.servlet.FilterChain;

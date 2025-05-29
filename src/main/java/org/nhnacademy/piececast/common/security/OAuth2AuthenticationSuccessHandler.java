@@ -1,4 +1,3 @@
-// OAuth2AuthenticationSuccessHandler.java
 package org.nhnacademy.piececast.common.security;
 
 import jakarta.servlet.ServletException;

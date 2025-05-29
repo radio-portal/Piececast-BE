@@ -31,7 +31,7 @@ public class SecurityConfig {
                         .userInfoEndpoint(userInfo -> userInfo
                                 .userService(oAuth2UserService)
                         )
-                        .successHandler(oAuth2AuthenticationSuccessHandler)  // ❗이게 반드시 있어야 함
+                        .successHandler(oAuth2AuthenticationSuccessHandler)
                 )
                 .addFilterBefore(new JwtAuthenticationFilter(tokenProvider, memberRepository),
                         UsernamePasswordAuthenticationFilter.class)
