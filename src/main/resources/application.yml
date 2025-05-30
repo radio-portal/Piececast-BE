@@ -24,3 +24,7 @@ spring:
 jwt:
   secret: hJ94YxfJ7P4K2rX/o6+9wVbN8d1X8IOzjZ8EuU4g+nx4Ru4AYjmgM1vK1sYkxGm8
   expiration: 86400000  # 1 day
+
+spotify:
+  client-id: 953be8b4278c4d4ab8b42cd71f05ef2a
+  client-secret: c1f269284e1e4d46b0bddc010bf52c0e

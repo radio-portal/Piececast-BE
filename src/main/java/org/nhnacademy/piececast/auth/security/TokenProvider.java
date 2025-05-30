@@ -1,4 +1,4 @@
-package org.nhnacademy.piececast.common.security;
+package org.nhnacademy.piececast.auth.security;
 
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;

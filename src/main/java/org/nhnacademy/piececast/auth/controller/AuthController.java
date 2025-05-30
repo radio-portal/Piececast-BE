@@ -1,5 +1,5 @@
 // AuthController.java
-package org.nhnacademy.piececast.member.contorller;
+package org.nhnacademy.piececast.auth.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
