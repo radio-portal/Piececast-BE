@@ -1,20 +1,20 @@
-spring:
-  security:
-    oauth2:
-      client:
-        registration:
-          spotify:
-            client-id: 953be8b4278c4d4ab8b42cd71f05ef2a
-            client-secret: c1f269284e1e4d46b0bddc010bf52c0e
-            scope:
-              - user-read-email
-              - user-read-private
-            client-name: Spotify
-            authorization-grant-type: authorization_code
-            redirect-uri: ${SPOTIFY_REDIRECT_URI}
-        provider:
-          spotify:
-            authorization-uri: https://accounts.spotify.com/authorize
-            token-uri: https://accounts.spotify.com/api/token
-            user-info-uri: https://api.spotify.com/v1/me
-            user-name-attribute: id
+#spring:
+#  security:
+#    oauth2:
+#      client:
+#        registration:
+#          spotify:
+#            client-id: ${SPOTIFY_CLIENT_ID}
+#            client-secret: ${SPOTIFY_CLIENT_SECRET}
+#            scope:
+#              - user-read-email
+#              - user-read-private
+#            client-name: Spotify
+#            authorization-grant-type: authorization_code
+#            redirect-uri: ${SPOTIFY_REDIRECT_URI}
+#        provider:
+#          spotify:
+#            authorization-uri: https://accounts.spotify.com/authorize
+#            token-uri: https://accounts.spotify.com/api/token
+#            user-info-uri: https://api.spotify.com/v1/me
+#            user-name-attribute: id
