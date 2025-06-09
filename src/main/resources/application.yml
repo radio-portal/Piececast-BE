@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: piececast-api
+
+  profiles:
+    active: dev
+    include: oauth
