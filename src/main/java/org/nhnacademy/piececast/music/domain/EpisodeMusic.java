@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.nhnacademy.piececast.content.domain.Piece;
+import org.nhnacademy.piececast.piece.domain.Piece;
 import org.nhnacademy.piececast.program.domain.Episode;
 
 @Entity

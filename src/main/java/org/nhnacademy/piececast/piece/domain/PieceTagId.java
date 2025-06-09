@@ -1,4 +1,4 @@
-package org.nhnacademy.piececast.content.domain;
+package org.nhnacademy.piececast.piece.domain;
 
 import jakarta.persistence.Embeddable;
 import lombok.Getter;
