@@ -40,15 +40,24 @@ jobs:
     - name: Push Docker Image
       run: docker push ${{ env.DOCKER_IMAGE }}
 
-    - name: Deploy to SSH Server
+    - name: Deploy to SSH Server (via password)
       uses: appleboy/ssh-action@v1.0.0
       with:
         host: ${{ secrets.SSH_HOST }}
         username: ${{ secrets.SSH_USER }}
-        key: ${{ secrets.SSH_KEY }}
+        password: ${{ secrets.SSH_PASSWORD }}
+        port: ${{ secrets.SSH_PORT }}
         script: |
+          echo "✅ 기존 8080 포트에서 실행 중인 컨테이너 확인"
+          CONTAINER_ID=$(docker ps -q --filter "publish=8080")
+          if [ ! -z "$CONTAINER_ID" ]; then
+            echo "🛑 기존 컨테이너 중지 및 삭제: $CONTAINER_ID"
+            docker stop $CONTAINER_ID
+            docker rm $CONTAINER_ID
+          fi
+
+          echo "⬇️ 최신 이미지 pull"
           docker pull ${{ env.DOCKER_IMAGE }}
-          docker stop piececast-backend || true
-          docker rm piececast-backend || true
-          docker-compose -f ${DOCKERCOMPOSE_PATH} up -d
-    
+
+          echo "🚀 docker-compose 실행"
+          docker-compose -f ${{ secrets.DOCKERCOMPOSE_PATH }} up -d
