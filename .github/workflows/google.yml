@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      DOCKER_IMAGE: ${ secrets.DOCKER_IMAGE }
+      DOCKER_IMAGE: ${{ secrets.DOCKER_IMAGE }}
 
     steps:
     - name: Checkout Repository
