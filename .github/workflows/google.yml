@@ -1,0 +1,51 @@
+name: Deploy Piececast
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      DOCKER_IMAGE: ${DOCKER_IMAGE}
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+
+    - name: Build JAR
+      run: ./gradlew clean build -x test
+
+    - name: Delete old Docker image (locally)
+      run: docker rmi ${{ env.DOCKER_IMAGE }} || true
+
+    - name: Docker login
+      run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+    - name: Build Docker Image
+      run: docker build -t ${{ env.DOCKER_IMAGE }} .
+
+    - name: Push Docker Image
+      run: docker push ${{ env.DOCKER_IMAGE }}
+
+    - name: Deploy to SSH Server
+      uses: appleboy/ssh-action@v1.0.0
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USER }}
+        key: ${{ secrets.SSH_KEY }}
+        script: |
+          docker pull ${{ env.DOCKER_IMAGE }}
+          docker stop piececast-backend || true
+          docker rm piececast-backend || true
+          docker-compose -f ${DOCKERCOMPOSE_PATH} up -d
+    
