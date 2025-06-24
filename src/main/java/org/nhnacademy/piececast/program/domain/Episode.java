@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Entity
 @Getter
 @NoArgsConstructor
@@ -17,5 +19,5 @@ public class Episode {
     private Program program;
 
     @Column(nullable = false)
-    private java.time.LocalDate date;
+    private LocalDate date;
 }
