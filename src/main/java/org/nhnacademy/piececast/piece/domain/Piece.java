@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.nhnacademy.piececast.program.domain.Episode;
-
 @Entity
 @Getter
 @NoArgsConstructor
@@ -13,8 +12,8 @@ public class Piece {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long pieceId;
 
-    @Column(nullable = true)
-    private String path;
+    @Column(name = "mp3_path", nullable = true, columnDefinition = "TEXT")
+    private String mp3Path;
 
     @Column(nullable = true)
     private String title;
@@ -23,7 +22,7 @@ public class Piece {
     private String summary;
 
     @Column(nullable = true)
-    private Long totalView;
+    private int pieceOrder;
 
     @ManyToOne
     @JoinColumn(name = "episode_id", nullable = false)

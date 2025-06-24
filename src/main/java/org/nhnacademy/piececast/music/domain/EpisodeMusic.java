@@ -29,4 +29,6 @@ public class EpisodeMusic {
     @ManyToOne
     @JoinColumn(name = "piece_id", nullable = true)
     private Piece piece;
+
+    private int musicOrder;
 }

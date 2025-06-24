@@ -23,4 +23,8 @@ public class Program {
 
     @Column(nullable = false)
     private int time;
+
+    @Column(nullable = true, columnDefinition = "TEXT")
+    private String thumbnail_url;
+
 }
