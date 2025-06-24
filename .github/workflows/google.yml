@@ -40,13 +40,13 @@ jobs:
     - name: Push Docker Image
       run: docker push ${{ env.DOCKER_IMAGE }}
 
-    - name: Deploy to SSH Server (via password)
+    - name: Deploy to SSH Server
       uses: appleboy/ssh-action@v1.0.0
       with:
         host: ${{ secrets.SSH_HOST }}
-        username: ${{ secrets.SSH_USER }}
-        password: ${{ secrets.SSH_PASSWORD }}
-        port: ${{ secrets.SSH_PORT }}
+        username: piececast
+        key: ${{ secrets.SSH_KEY }}
+        port: 22
         script: |
           echo "✅ 기존 8080 포트에서 실행 중인 컨테이너 확인"
           CONTAINER_ID=$(docker ps -q --filter "publish=8080")
