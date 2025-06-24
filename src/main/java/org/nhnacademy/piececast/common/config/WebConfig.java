@@ -11,7 +11,8 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addMapping("/**") // 모든 경로
                 .allowedOrigins(
                         "http://127.0.0.1:5173",
-                        "https://piececast.netlify.app"
+                        "https://piececast.netlify.app",
+                        "https://piececast.store"
                 )
                 .allowedMethods("*") // GET, POST 등 모든 메소드 허용
                 .allowedHeaders("*")

@@ -1,7 +1,7 @@
 package org.nhnacademy.piececast.music.service;
 
 import lombok.RequiredArgsConstructor;
-import org.nhnacademy.piececast.music.domain.Music;
+import org.nhnacademy.piececast.music.dto.PlaylistResponse;
 import org.nhnacademy.piececast.music.repository.EpisodeMusicRepository;
 import org.springframework.stereotype.Service;
 
@@ -14,11 +14,14 @@ public class EpisodeMusicService {
 
     private final EpisodeMusicRepository episodeMusicRepository;
 
-    public List<Music> getMusicsByEpisodeId(Long episodeId) {
+    public List<PlaylistResponse.MusicSimple> getMusicListByEpisodeId(Long episodeId) {
         return episodeMusicRepository.findByEpisode_EpisodeId(episodeId)
                 .stream()
-                .map(em -> em.getMusic())
+                .map(em -> new PlaylistResponse.MusicSimple(
+                        em.getMusic().getMusicId(),
+                        em.getMusic().getTitle(),
+                        em.getMusic().getArtist()
+                ))
                 .collect(Collectors.toList());
     }
 }
-

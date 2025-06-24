@@ -8,16 +8,14 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 public class PlaylistResponse {
-    private Long programId;
     private Long episodeId;
-    private List<MusicWithSpotify> playlist;
+    private List<MusicSimple> playlist;
 
     @Getter
     @AllArgsConstructor
-    public static class MusicWithSpotify {
+    public static class MusicSimple {
         private Long musicId;
         private String title;
         private String artist;
-        private SpotifyTrackInfo spotify;
     }
 }
