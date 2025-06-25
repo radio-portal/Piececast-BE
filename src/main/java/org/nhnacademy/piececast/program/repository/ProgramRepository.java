@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 public interface ProgramRepository extends JpaRepository<Program, Long> {
     @Query("""
-    SELECT p.programId AS programId, p.program AS programName, p.station AS station,
+    SELECT p.programId AS programId, p.program AS programName, p.station AS station, p.thumbnailUrl AS thumbnailUrl,
            e.episodeId AS episodeId, e.date AS latestEpisodeDate,
            pe.pieceId AS pieceId, pe.title AS pieceTitle
     FROM Program p
@@ -29,7 +29,7 @@ public interface ProgramRepository extends JpaRepository<Program, Long> {
     List<ProgramWithLatestEpisodeAndPiecesProjection> findProgramsWithLatestEpisodeAndPieces();
 
     @Query("""
-    SELECT p.programId AS programId, p.program AS programName, p.station AS station,
+    SELECT p.programId AS programId, p.program AS programName, p.station AS station, p.thumbnailUrl AS thumbnailUrl,
            e.episodeId AS episodeId, e.date AS latestEpisodeDate,
            pe.pieceId AS pieceId, pe.title AS pieceTitle
     FROM Program p

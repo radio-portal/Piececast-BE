@@ -17,47 +17,34 @@ public class ProgramService {
     private final ProgramRepository programRepository;
 
     public List<ProgramCardDto> getLatestEpisodeCards() {
-        List<ProgramWithLatestEpisodeAndPiecesProjection> rows =
-                programRepository.findProgramsWithLatestEpisodeAndPieces();
-
-        Map<Long, ProgramCardDto> result = new LinkedHashMap<>();
-
-        for (var row : rows) {
-            result.computeIfAbsent(row.getProgramId(), id -> new ProgramCardDto(
-                    row.getProgramId(),
-                    row.getProgramName(),
-                    row.getStation(),
-                    row.getEpisodeId(),
-                    row.getLatestEpisodeDate(),
-                    new ArrayList<>()
-            )).getPieces().add(new PieceDto(row.getPieceId(), row.getPieceTitle()));
-        }
-
-        return new ArrayList<>(result.values());
+        return groupPrograms(programRepository.findProgramsWithLatestEpisodeAndPieces());
     }
 
     public List<ProgramCardDto> getProgramsByDate(LocalDate date) {
-        List<ProgramWithLatestEpisodeAndPiecesProjection> raw = programRepository.findProgramsByEpisodeDate(date);
+        return groupPrograms(programRepository.findProgramsByEpisodeDate(date));
+    }
 
+    private List<ProgramCardDto> groupPrograms(List<ProgramWithLatestEpisodeAndPiecesProjection> rows) {
         Map<Long, ProgramCardDto> grouped = new LinkedHashMap<>();
 
-        for (var row : raw) {
-            grouped.computeIfAbsent(row.getProgramId(), id -> new ProgramCardDto(
-                    row.getProgramId(),
-                    row.getProgramName(),
-                    row.getStation(),
-                    row.getEpisodeId(),
-                    row.getLatestEpisodeDate(),
-                    new ArrayList<>()
-            )).getPieces().add(
-                    row.getPieceId() != null ? new PieceDto(row.getPieceId(), row.getPieceTitle()) : null
+        for (var row : rows) {
+            ProgramCardDto dto = grouped.computeIfAbsent(row.getProgramId(), id ->
+                    new ProgramCardDto(
+                            row.getProgramId(),
+                            row.getProgramName(),
+                            row.getStation(),
+                            row.getEpisodeId(),
+                            row.getLatestEpisodeDate(),
+                            row.getThumbnailUrl(),
+                            new ArrayList<>()
+                    )
             );
-        }
 
-        // null 조각 제거
-        grouped.values().forEach(card -> card.getPieces().removeIf(Objects::isNull));
+            if (row.getPieceId() != null) {
+                dto.getPieces().add(new PieceDto(row.getPieceId(), row.getPieceTitle()));
+            }
+        }
 
         return new ArrayList<>(grouped.values());
     }
-
 }

@@ -25,6 +25,6 @@ public class Program {
     private int time;
 
     @Column(nullable = true, columnDefinition = "TEXT")
-    private String thumbnail_url;
+    private String thumbnailUrl;
 
 }

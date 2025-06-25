@@ -14,5 +14,6 @@ public class ProgramCardDto {
     private String station;
     private Long episodeId;
     private LocalDate latestEpisodeDate;
+    private String thumbnailUrl;
     private List<PieceDto> pieces;
 }

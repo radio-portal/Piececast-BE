@@ -10,4 +10,5 @@ public interface ProgramWithLatestEpisodeAndPiecesProjection {
     LocalDate getLatestEpisodeDate();
     Long getPieceId();
     String getPieceTitle();
+    String getThumbnailUrl();
 }
