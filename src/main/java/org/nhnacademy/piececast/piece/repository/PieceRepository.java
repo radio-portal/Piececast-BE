@@ -2,42 +2,62 @@ package org.nhnacademy.piececast.piece.repository;
 
 import org.nhnacademy.piececast.piece.domain.Piece;
 import org.nhnacademy.piececast.piece.dto.MusicDto;
+import org.nhnacademy.piececast.piece.dto.StoryDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public interface PieceRepository extends JpaRepository<Piece, Long> {
 
-    // 회차에 속한 전체 조각 제목 리스트용
     List<Piece> findByEpisode_EpisodeId(Long episodeId);
 
-    // 조각의 태그 목록
     @Query("""
-        SELECT pt.tag.name
+        SELECT pt.piece.pieceId, pt.tag.name
         FROM PieceTag pt
-        WHERE pt.piece.pieceId = :pieceId
+        WHERE pt.piece.pieceId IN :pieceIds
     """)
-    List<String> findTagsByPieceId(@Param("pieceId") Long pieceId);
+    List<Object[]> findTagsByPieceIds(@Param("pieceIds") List<Long> pieceIds);
 
-    // 회차의 전체 선곡 리스트 (piece가 null이면 회차 전체용 음악)
+    default Map<Long, List<String>> findTagsByPieceIdsAsMap(List<Long> pieceIds) {
+        return findTagsByPieceIds(pieceIds).stream()
+                .collect(Collectors.groupingBy(
+                        row -> (Long) row[0],
+                        Collectors.mapping(row -> (String) row[1], Collectors.toList())
+                ));
+    }
+
     @Query("""
-        SELECT new org.nhnacademy.piececast.piece.dto.MusicDto(m.title, m.artist)
+        SELECT em.piece.pieceId, new org.nhnacademy.piececast.piece.dto.MusicDto(m.title, m.artist)
         FROM EpisodeMusic em
         JOIN em.music m
-        WHERE em.episode.episodeId = :episodeId AND em.piece IS NULL
+        WHERE em.piece.pieceId IN :pieceIds
     """)
-    List<MusicDto> findEpisodeMusic(@Param("episodeId") Long episodeId);
+    List<Object[]> findPieceMusicByPieceIds(@Param("pieceIds") List<Long> pieceIds);
 
+    default Map<Long, List<MusicDto>> findPieceMusicMap(List<Long> pieceIds) {
+        return findPieceMusicByPieceIds(pieceIds).stream()
+                .collect(Collectors.groupingBy(
+                        row -> (Long) row[0],
+                        Collectors.mapping(row -> (MusicDto) row[1], Collectors.toList())
+                ));
+    }
 
-    // 조각에 연결된 음악 리스트
     @Query("""
-        SELECT new org.nhnacademy.piececast.piece.dto.MusicDto(m.title, m.artist)
-        FROM EpisodeMusic em
-        JOIN em.music m
-        WHERE em.piece.pieceId = :pieceId
+        SELECT ps.piece.pieceId, new org.nhnacademy.piececast.piece.dto.StoryDto(s.listenerName, s.content)
+        FROM PieceStory ps
+        JOIN ps.story s
+        WHERE ps.piece.pieceId IN :pieceIds
     """)
-    List<MusicDto> findPieceMusic(@Param("pieceId") Long pieceId);
+    List<Object[]> findPieceStories(@Param("pieceIds") List<Long> pieceIds);
 
+    default Map<Long, List<StoryDto>> findPieceStoriesMap(List<Long> pieceIds) {
+        return findPieceStories(pieceIds).stream()
+                .collect(Collectors.groupingBy(
+                        row -> (Long) row[0],
+                        Collectors.mapping(row -> (StoryDto) row[1], Collectors.toList())
+                ));
+    }
 }

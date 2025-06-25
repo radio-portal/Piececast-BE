@@ -3,6 +3,7 @@ package org.nhnacademy.piececast.piece.service;
 import lombok.RequiredArgsConstructor;
 import org.nhnacademy.piececast.piece.domain.Piece;
 import org.nhnacademy.piececast.piece.dto.EpisodePieceDetailResponse;
+import org.nhnacademy.piececast.piece.dto.MusicDto;
 import org.nhnacademy.piececast.piece.dto.StoryDto;
 import org.nhnacademy.piececast.piece.repository.PieceRepository;
 import org.nhnacademy.piececast.piece.repository.PieceStoryRepository;
@@ -12,6 +13,7 @@ import org.nhnacademy.piececast.program.domain.Program;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -28,20 +30,24 @@ public class PieceService {
         Episode episode = selectedPiece.getEpisode();
         Program program = episode.getProgram();
 
-        // 회차에 속한 모든 조각
+        // 1) 회차에 속한 모든 조각 가져오기 (1쿼리)
         List<Piece> pieces = pieceRepository.findByEpisode_EpisodeId(episode.getEpisodeId());
+        List<Long> pieceIds = pieces.stream().map(Piece::getPieceId).toList();
 
+        // 2) 태그, 음악, 사연을 모두 Map<PieceId, List<...>> 으로 수집 (3쿼리)
+        Map<Long, List<String>> tagMap = pieceRepository.findTagsByPieceIdsAsMap(pieceIds);
+        Map<Long, List<MusicDto>> musicMap = pieceRepository.findPieceMusicMap(pieceIds);
+        Map<Long, List<StoryDto>> storyMap = pieceRepository.findPieceStoriesMap(pieceIds);
+
+        // 3) 모든 조각 상세정보 조립 (메모리에서)
         List<EpisodePieceDetailResponse.PieceDetail> pieceDetails = pieces.stream()
-                .map(piece -> new EpisodePieceDetailResponse.PieceDetail(
-                        piece.getPieceId(),
-                        piece.getTitle(),
-                        piece.getSummary(),
-                        pieceRepository.findTagsByPieceId(piece.getPieceId()),
-                        pieceRepository.findPieceMusic(piece.getPieceId()),
-                        pieceStoryRepository.findByPiece_PieceId(piece.getPieceId())
-                                .stream()
-                                .map(story -> new StoryDto(story.getStory().getListenerName(), story.getStory().getContent()))
-                                .toList()
+                .map(p -> new EpisodePieceDetailResponse.PieceDetail(
+                        p.getPieceId(),
+                        p.getTitle(),
+                        p.getSummary(),
+                        tagMap.getOrDefault(p.getPieceId(), List.of()),
+                        musicMap.getOrDefault(p.getPieceId(), List.of()),
+                        storyMap.getOrDefault(p.getPieceId(), List.of())
                 ))
                 .toList();
 
