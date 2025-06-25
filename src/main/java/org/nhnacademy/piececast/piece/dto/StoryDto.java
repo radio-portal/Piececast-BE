@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class MusicDto {
-    private String title;
-    private String artist;
+public class StoryDto {
+    private String listenerName;
+    private String content;
 }
