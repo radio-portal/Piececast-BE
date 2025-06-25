@@ -3,7 +3,6 @@ package org.nhnacademy.piececast.program.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
-import org.nhnacademy.piececast.piece.dto.PieceDetailResponse;
 import org.nhnacademy.piececast.program.dto.ProgramCardDto;
 import org.nhnacademy.piececast.program.service.ProgramService;
 import org.springframework.format.annotation.DateTimeFormat;

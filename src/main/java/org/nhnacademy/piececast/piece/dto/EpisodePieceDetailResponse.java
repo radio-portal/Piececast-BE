@@ -34,6 +34,7 @@ public class EpisodePieceDetailResponse {
         private Long pieceId;
         private String title;
         private String summary;
+        private String mp3Path;
         private List<String> tags;
         private List<MusicDto> musics;
         private List<StoryDto> stories;

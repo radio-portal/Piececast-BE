@@ -8,16 +8,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/pieces")
+@RequestMapping("/api/episodes")
 @RequiredArgsConstructor
 public class PieceController {
 
     private final PieceService pieceService;
 
-    @Operation(summary = "회차 상세 조각 목록 + 프로그램 정보")
-    @GetMapping("/{pieceId}/episode-full")
-    public ResponseEntity<EpisodePieceDetailResponse> getEpisodeWithAllPieceDetails(@PathVariable Long pieceId) {
-        return ResponseEntity.ok(pieceService.getEpisodeDetailByPieceId(pieceId));
+    @Operation(summary = "회차 전체 조각 상세 목록 + 프로그램 정보")
+    @GetMapping("/{episodeId}/full")
+    public ResponseEntity<EpisodePieceDetailResponse> getEpisodeWithAllPieceDetails(@PathVariable Long episodeId) {
+        return ResponseEntity.ok(pieceService.getEpisodeDetailByEpisodeId(episodeId));
     }
-
 }
+
